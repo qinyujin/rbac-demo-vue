@@ -1,0 +1,10 @@
+export const LOGIN = "login";
+export const SAVE_USER = "saveUser";
+export const GET_USER = "getUser";
+export const UPDATE_PASSWORD = "updatepwd";
+export const DELETE_USER = "deleteUser";
+export const DELETE_ROLE = "deleteRole";
+export const UPDATE_USER = "updateUser";
+export const UPDATE_ROLE = "updateRole";
+export const SAVE_ROLE = "saveRole";
+export const GET_CURRENT_ROLE = "getCurrentRole";
