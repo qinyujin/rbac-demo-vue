@@ -8,3 +8,5 @@ export const UPDATE_USER = "updateUser";
 export const UPDATE_ROLE = "updateRole";
 export const SAVE_ROLE = "saveRole";
 export const GET_CURRENT_ROLE = "getCurrentRole";
+export const ADD_ASYNC_ROUTE = "addAsyncRoute";
+export const GENERATE_ROUTES = "generateRoutes";

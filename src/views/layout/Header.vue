@@ -64,9 +64,11 @@ export default {
     },
     updatepwd() {
       console.log("进入更新密码方法");
-      this.$store.dispatch(types.UPDATE_PASSWORD, {
-        password: this.password
-      });
+      if (this.$store.state.role === null) {
+        this.$store.dispatch(types.UPDATE_PASSWORD, {
+          password: this.password
+        });
+      }
     }
   }
 };

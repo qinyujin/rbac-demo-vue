@@ -38,6 +38,7 @@ export default {
         name: this.name,
         password: this.password
       });
+      this.$router.push("/");
     }
   }
 };

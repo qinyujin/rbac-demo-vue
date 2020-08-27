@@ -5,6 +5,7 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
+      mode="vertical"
       router
     >
       <el-menu-item index="/user">

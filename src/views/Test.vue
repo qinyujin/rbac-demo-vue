@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <p>welcome to test page</p>
+    <p>测试向children中动态添加路由</p>
   </div>
 </template>
 

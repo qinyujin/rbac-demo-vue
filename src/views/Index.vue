@@ -29,7 +29,8 @@ export default {
     Header: () => import("../views/layout/Header"),
     AppMain: () => import("../views/layout/AppMain"),
     Login: () => import("../views/Login"),
-    sidebar: () => import("../views/layout/Siderbar")
+    // sidebar注意一下，小写是使用路由的
+    sidebar: () => import("../views/layout/sidebar")
   },
   computed: {
     ...mapState(["isLogin"])
