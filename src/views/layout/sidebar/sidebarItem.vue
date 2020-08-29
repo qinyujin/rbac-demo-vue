@@ -15,12 +15,6 @@
 
 <script>
 export default {
-  props: ["item"],
-  created() {
-    console.log("item:");
-    console.log(this.item);
-    console.log("children:");
-    console.log(this.item.children);
-  }
+  props: ["item"]
 };
 </script>

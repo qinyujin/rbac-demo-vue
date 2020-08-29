@@ -1,12 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { Message } from "element-ui";
+// eslint-disable-next-line no-unused-vars
 import store from "@/store";
 import * as types from "@/store/type";
 
 Vue.use(VueRouter);
 
-const constantRoutes = [
+export const constantRoutes = [
   {
     path: "/login",
     name: "login",
@@ -185,74 +186,53 @@ const router = new VueRouter({
   routes: constantRoutes
 });
 
-const whiteList = ["/login"];
+// const whiteList = ["/login"];
 
-router.beforeEach((to, from, next) => {
-  let thisRouter = router;
-  if (to.path === "/") {
-    next({ name: "userIndex" });
-  }
-  // 退出登录
-  // console.log(to.path);
-  // if (to.path === "/logout") {
-  //   sessionStorage.clear();
-  //   // await store.dispatch(PERMISSION_NAMESPACE + "/" + RESET_ROUTES);
-  //   next({ path: "/login" });
-  // }
+router.beforeEach(async (to, from, next) => {
+  console.log("进入钩子函数，从" + from.path + "来的，要到：" + to.path + "去");
+  let token = sessionStorage.getItem("token");
 
-  const hasAuth = sessionStorage.getItem("token");
-  // 如果用户已经登录
-  if (hasAuth) {
-    // 如果已经登录就重定向
-    if (to.path === "/login") {
+  //如果登录了
+  if (token) {
+    console.log("钩子-登录状态");
+    //登录状态不给访问login
+    if (to.path == "/login") {
       Message.error("请先退出");
-      next({ path: "/" });
+      next({
+        path: "/"
+      });
     } else {
-      // 判断当前用户是否已拉取完user_info信息
-      let hasRole = store.getters.role;
-      console.log("state:" + store.getters);
-      //无法直接通过state取值
-      console.log(store.getters);
-      console.log(store.getters.role);
-      if (hasRole) {
-        // 已经拉取完用户信息
-        try {
-          next();
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        // try {
-        // 拉取user_info
-        store.dispatch(types.GET_CURRENT_ROLE);
-        let role = store.state.role;
-        console.log("permission: ", role);
+      next();
+    }
 
-        // 动态生成路由，异步请求
-        let accessedRoutes = store.dispatch(types.GENERATE_ROUTES, {
-          role: role
-        });
-        // 添加路由信息
-        console.log("before: ", thisRouter);
-        router.addRoutes(accessedRoutes);
-        console.log("after: ", thisRouter);
-        // console.log("permission routes: ", store.getters.permission_routes);
+    let hasRole = store.state.role;
+    if (hasRole) {
+      console.log("钩子-有角色状态");
+      console.log("permission not null:" + hasRole.name);
+      next();
+    } else {
+      console.log("钩子-没角色状态");
+      await store.dispatch(types.GET_CURRENT_ROLE);
+      let role = store.state.role;
+      console.log("permission null:" + role.name);
 
-        // hack method to ensure that addRoutes is complete
-        // set the replace: true, so the navigation will not leave a history record
+      if (role.name == "超级管理员") {
+        await store.commit(types.ADD_ASYNC_ROUTE);
+        console.log(store.state.routes);
+        router.options.routes = store.state.routes;
         next({ ...to, replace: true });
-        // }
-        // catch (error) {
-        //   Message.error("身份验证错误，请重新登录");
-        //   next({ path: "/login" });
-        // }
+      } else {
+        console.log("其他角色");
+        next();
       }
     }
+
+    //如果没登陆
   } else {
-    // 如果没有登录
-    // 如果不在白名单中
-    if (whiteList.indexOf(to.path) === -1) {
-      next({ path: "/login" });
+    if (to.path != "/login") {
+      next({
+        path: "/login"
+      });
     } else {
       next();
     }

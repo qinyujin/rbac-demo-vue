@@ -49,21 +49,22 @@ export default {
     password: null
   }),
   created() {
-    console.log("header回调函数");
     this.$store.dispatch(types.GET_USER);
-    this.$store.dispatch(types.GET_CURRENT_ROLE);
+    if (this.role == null) {
+      console.log("role为空，在header回调用拉取角色信息");
+      this.$store.dispatch(types.GET_CURRENT_ROLE);
+    }
+    // this.$store.dispatch(types.GET_CURRENT_ROLE);
   },
   computed: {
     ...mapState(["user", "role"])
   },
   methods: {
     logout() {
-      console.log("进入退出方法");
       sessionStorage.removeItem("token");
       location.reload();
     },
     updatepwd() {
-      console.log("进入更新密码方法");
       if (this.$store.state.role === null) {
         this.$store.dispatch(types.UPDATE_PASSWORD, {
           password: this.password

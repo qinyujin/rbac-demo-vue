@@ -21,9 +21,6 @@
 import { mapState } from "vuex";
 import sidebarItem from "./sidebarItem";
 export default {
-  created() {
-    console.log(this.routes);
-  },
   components: {
     sidebarItem
   },

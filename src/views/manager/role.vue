@@ -24,7 +24,7 @@
 
     <el-dialog title="添加角色" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="name" :label-width="formLabelWidth">
+        <el-form-item label="name">
           <el-input
             v-model="form.name"
             autocomplete="off"
@@ -88,9 +88,7 @@ export default {
     };
   },
   async created() {
-    console.log("创建role页面");
     let resp = await axios.get("role/listRole");
-    console.log(resp.data.data);
     this.roles = resp.data.data;
   },
   methods: {
@@ -101,7 +99,6 @@ export default {
       });
     },
     addRole() {
-      console.log("进入Mehotds方法中");
       this.$store.dispatch(types.SAVE_ROLE, {
         name: this.form.name
       });

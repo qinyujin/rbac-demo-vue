@@ -26,14 +26,14 @@
 
     <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="name" :label-width="formLabelWidth">
+        <el-form-item label="name">
           <el-input
             v-model="form.name"
             autocomplete="off"
             placeholder="请输入用户名"
           ></el-input>
         </el-form-item>
-        <el-form-item label="password" :label-width="formLabelWidth">
+        <el-form-item label="password">
           <el-input
             v-model="form.password"
             autocomplete="off"
@@ -98,9 +98,7 @@ export default {
     };
   },
   async created() {
-    console.log("创建user页面");
     let resp = await axios.get("user/listUser");
-    console.log(resp.data.data);
     this.users = resp.data.data;
   },
   methods: {
